@@ -176,13 +176,16 @@ Initialized empty Git repository in /home/ezreau/jiqixuexi/Hex_Strategist/hex-st
 
 ---
 
-### [日期：____] - Step 0.4 - Windows 克隆仓库并初始化项目结构
+### [日期：2025.12.28（周日）] - Step 0.4 - Windows 克隆仓库并初始化项目结构
 
 #### 计划
 
 
 #### 实际执行
+MSF1:在自己本地服务器192.168.1.200上配置远程仓库，需要先cd到建立仓库的地方，然后再建立一个bare仓库（git init --bare hex-strategist.gi）,然后再在Windows开发电脑上配置仓库位置（git remote set-url local ezreau@192.168.1.200:~/jiqixuexi/Hex-Strategist/hex-strategist.git注意这里用local因为origin已经被GitHub占用了，否则会报错rror: remote origin already exists.），最终配置好后，执行git push local master，就成功上传代码，如下图
+![在自己服务器上配置好git local](images/dev_log/step0.4-1.png)
 
+![在服务器上查看版本](images/dev_log/step0.4-2.png)
 
 #### 测试结果
 ```bash
@@ -203,7 +206,7 @@ git push origin master
 
 ---
 
-### [日期：____] - Step 0.5 - 创建 Python 虚拟环境
+### [日期：2025.12.28（周日）] - Step 0.5 - 创建 Python 虚拟环境
 
 #### 计划
 
