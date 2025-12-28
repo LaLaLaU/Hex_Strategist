@@ -149,17 +149,29 @@ tgy2014@sina.com
 
 
 #### 实际执行
+>MSF1：bare仓库就是裸仓库，只用来放代码，不在里面写代码。
 
+>MSF2: 在vscode中打开两个窗口，一个用来本地Windows开发，一个ssh远程连接，只需要点击文件-新窗口就可以了。
 
 #### 测试结果
 ```bash
 # 在服务器上运行
 ls ~/projects/hex-strategist.git/
-
-# 状态：
+#输出：
+(base) ezreau@ezreau-MS-7C89:~/jiqixuexi/Hex_Strategist$ git init --bare hex-strategist.git
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint:   git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint:   git branch -m <name>
+Initialized empty Git repository in /home/ezreau/jiqixuexi/Hex_Strategist/hex-strategist.git/
+# 状态：✅ 通过
 ```
-
-#### 遇到的问题
 
 
 ---
