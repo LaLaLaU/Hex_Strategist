@@ -296,16 +296,47 @@ truthguard             D:\app\anaconda\envs\truthguard
 
 
 #### 实际执行
+>MSF1:激活环境时，是conda activate env-hex 而不是activate conda env-hex(或者creativate!!!拼写错误)。
 
+>MSF2:我采用了两种方法测试：
+①直接写玩函数后调用，报错了，是因为我只是写了个函数，执行这个python文件时，python中并没有调用这个函数，所以得不到写的测试函数的print输出。因此在底下加上
+if __name__ == "__main__":
+    test_mss_import()
+才算做调用，才能输出print。（如果想通过运行函数本身所在的文件看函数输出的话，if __name__ == "__main__" 就必须要有）
+此外还要注意我的test_dependecies.py是在tests文件夹下的，所以命令要写 python .\tests\test_dependencies.py，而不是 python test_dependencies.py
+②使用了pytest库：一开始发现电脑已经安装了pytest，兴冲冲使用 pytest -s tests/test_dependencies.py做测试，但是报错如下图![刚开始使用电脑自带的pytest报错](images/dev_log/step0.6-1.png)折腾半天才知道原来这个已经有的pytest是别的项目的，不在PS E:\jiqixuexi\Hex_Strategist下，因此没法使用，需要重新安装，因此安装及安装后测试图如下：![必须在env-hex环境下安装pytest](images/dev_log/step0.6-2.png)
 
+>MSF3:第二个pillow库写测试文件时import pillow ，但是报错！原因发现安装库时这玩意儿叫做pillow，但是在程序中导入时这个库竟然叫做from PIL import Image，这是基于一定的历史渊源导致的。
 #### 测试结果
 ```bash
 python tests/test_dependencies.py
 
 # 输出：
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> pytest .\tests\test_dependencies.py     
+========================================================== test session starts ==========================================================
+platform win32 -- Python 3.12.12, pytest-9.0.2, pluggy-1.6.0
+rootdir: E:\jiqixuexi\Hex_Strategist
+plugins: anyio-4.12.0
+collected 5 items                                                                                                                        
 
+tests\test_dependencies.py .....                                                                                                   [100%]
 
-# 状态：
+=========================================================== 5 passed in 6.31s =========================================================== 
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> pytest -s .\tests\test_dependencies.py 
+========================================================== test session starts ==========================================================
+platform win32 -- Python 3.12.12, pytest-9.0.2, pluggy-1.6.0
+rootdir: E:\jiqixuexi\Hex_Strategist
+plugins: anyio-4.12.0
+collected 5 items                                                                                                                         
+
+tests\test_dependencies.py ✅ mss 导入成功
+.✅ pillow 导入成功
+.Checking connectivity to the model hosters, this may take a while. To bypass this check, set `DISABLE_MODEL_SOURCE_CHECK` to `True`.
+✅ paddleocr 导入成功
+.✅ imagehash 导入成功
+.✅ keyboard 导入成功
+
+# 状态：✅ 通过
 ```
 
 #### 遇到的问题
