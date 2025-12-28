@@ -73,13 +73,21 @@
 
 ## Phase 0: 环境准备
 
-### [日期：____] - Step 0.1 - 安装 Python 3.10+
+### [日期：2025.12.28（周日）] - Step 0.1 - 安装 Python 3.10+
 
 #### 计划
 按照 MVP_Development_Plan.md 的 Step 0.1 执行
 
 #### 实际执行
-<!-- 记录实际操作 -->
+>MSF1:实际操作时使用了python -v进入了详细模式，才知道python -v和python -V不一样，后者才是python --version (注意是两个--，因为写错过哈哈哈)，且因为python -v 进入python详细模式后会输出很多日志文件，打印每日导入模块的详细信息。![详细模式截图](images/dev_log/step0.1-1.png)这时候进入的python要输入exit()，或者按下CTRL+Z后再按enter键退出。
+
+>MSF2:决定认真动手维护开发日志（本文件），而不是像之前那样靠ai写。发现自己一个问题：总是打错别字，键盘拼写需要练习。
+
+>MSF3:学着写.md文件（专业名词叫markdown格式），问了ai才知道斜体的格式是*内容*，引用的格式是在这句话前面加一个>，只要不认为换行，就还算一句话。我选择用引用格式突出显示我自己的想法（备注有符号“MSF”），并在必要时候用*斜体*表示强调，每个想法下空一格。
+
+>MSF4：学习了.gitkeep是如何用的，如何写.gitignore文件内容（注意：里面的目录斜杠是/,像Linux那样，而不是Windows的\）
+
+>MSF5:一个电脑下可以安装很多python，每一个python有自己的pip包。当前使用pip --version输出的是pip 25.0.1 from D:\app\anaconda\Lib\site-packages\pip (python 3.12)表明它来自D:\app\anaconda的python，那么python是不是来自这个路径呢？仅仅使用python --version是看不出来的，①可以使用python -v刚刚的那个详细模式看具体的细节“D:\app\anaconda\Lib\encodings\...，最后行是Python 3.12.7 | packaged by conda-forge ...”。或者②使用 python -c "import sys; print(sys.executable)"打印当前python的路径。
 
 #### 测试结果
 ```bash
@@ -88,28 +96,29 @@ python --version
 pip --version
 
 # 输出结果
+PS E:\jiqixuexi\Hex_Strategist> python --version
+Python 3.12.7
+PS E:\jiqixuexi\Hex_Strategist> pip --version                                                      pip 25.0.1 from D:\app\anaconda\Lib\site-packages\pip (python 3.12)
 
-
-# 状态：✅ 通过 / ❌ 失败
+# 状态：✅ 通过 
 ```
 
 #### 遇到的问题
 <!-- 如果有问题，记录在这里 -->
 
 #### 时间记录
-- 开始：
-- 结束：
-- 耗时：
+- 开始：2025.12.28 9：00
+- 结束：2025.12.28 10：26
 
 ---
 
-### [日期：____] - Step 0.2 - 安装 Git 并配置
+### [2025.12.28（周日）] - Step 0.2 - 安装 Git 并配置
 
 #### 计划
 
 
 #### 实际执行
-
+无问题
 
 #### 测试结果
 ```bash
@@ -117,15 +126,24 @@ git --version
 git config --global user.name
 git config --global user.email
 
-# 状态：
+# 输出：
+PS E:\jiqixuexi\Hex_Strategist> git --version
+git version 2.48.1.windows.1
+PS E:\jiqixuexi\Hex_Strategist> git config --global user.name
+Ezreau
+PS E:\jiqixuexi\Hex_Strategist> git config --global user.email
+tgy2014@sina.com
+
+#状态：✅ 通过
 ```
 
 #### 时间记录
-- 耗时：
+- 开始：2025.12.28 10：30
+- 结束：2025.12.28 10：45
 
 ---
 
-### [日期：____] - Step 0.3 - 在 Ubuntu 服务器创建 Git 仓库
+### [日期：2025.12.28（周日）] - Step 0.3 - 在 Ubuntu 服务器创建 Git 仓库
 
 #### 计划
 
