@@ -192,16 +192,67 @@ MSF1:在自己本地服务器192.168.1.200上配置远程仓库，需要先cd到
 tree /F
 git status
 
-# 状态：
+#输出：
+PS E:\jiqixuexi\Hex_Strategist> tree /f
+卷 新加卷 的文件夹 PATH 列表
+卷序列号为 887A-A373
+E:.
+│  .gitignore
+│  README.md
+│  requirements.txt
+│
+├─assets
+├─docs
+│  │  Development_Log.md
+│  │  Git_Quick_Guide.md
+│  │  MVP_Development_Plan.md
+│  │  Project_Hex_Strategist_Whitepaper.md
+│  │
+│  └─images
+│      └─dev_log
+│              .gitkeep
+│              step0.1-1.png
+│              step0.4-1.png
+│              step0.4-2.png
+│
+├─logs
+├─output
+├─src
+└─tests
+
+# 状态：✅ 通过
+
 ```
 
 #### Git 提交
 ```bash
-git add .
-git commit -m "Initial project structure"
-git push origin master
+PS E:\jiqixuexi\Hex_Strategist> git add .
+PS E:\jiqixuexi\Hex_Strategist> git commit -m "complete step 0.4" 
+[master 5e0284e] complete step 0.4
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+ delete mode 100644 tests/test_
+PS E:\jiqixuexi\Hex_Strategist> git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 852 bytes | 852.00 KiB/s, done.
+Total 4 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/LaLaLaU/Hex_Strategist.git
+   e148ace..5e0284e  master -> master
+PS E:\jiqixuexi\Hex_Strategist> git push local master
+ezreau@192.168.1.200's password: 
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 852 bytes | 852.00 KiB/s, done.
+Total 4 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+To 192.168.1.200:~/jiqixuexi/Hex-Strategist/hex-strategist.git
+   e148ace..5e0284e  master -> master
 
-# Commit ID：
+# Commit ID：5e0284e
 ```
 
 ---
@@ -212,19 +263,34 @@ git push origin master
 
 
 #### 实际执行
+>MSF1：实际上我并没有使用venv建立环境，而是使用conda,好处是将来可能用到更多的包（科学计算、C语言或其他语言的依赖）conda可以安装，而采用venv创建环境就只能通过pip安装python包。
 
+>MSF2:如果使用python -m venv env-hex则会在项目目录中自动创建一个env-hex的环境文件夹，但是使用conda不会，conda的环境会统一放在D:\app\anaconda，即conda的安装位置。
+
+>MSF3:理论上激活了环境后终端命令行前会有（env-hex）字样，但是刚开始没有，通过使用conda init powershell命令后再激活就显示了。
+
+>MSF4：在conda中创建的env-hex环境不会在git push时上传，git push 只会跟踪在仓库目录里且被git add追踪的文件。
 
 #### 测试结果
 ```bash
-.\venv\Scripts\activate
-where python
+(base) PS E:\jiqixuexi\Hex_Strategist> conda activate env-hex
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> conda info --envs    
 
-# 状态：
+# conda environments:
+#
+base                   D:\app\anaconda
+checkcheck             D:\app\anaconda\envs\checkcheck
+env-hex              * D:\app\anaconda\envs\env-hex
+shenduxuexi            D:\app\anaconda\envs\shenduxuexi
+truthguard             D:\app\anaconda\envs\truthguard
+
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> 
+# 状态：✅ 通过
 ```
 
 ---
 
-### [日期：____] - Step 0.6 - 安装基础依赖库
+### [日期：2025.12.28（周日）] - Step 0.6 - 安装基础依赖库
 
 #### 计划
 
