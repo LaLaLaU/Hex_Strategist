@@ -28,8 +28,8 @@
 ### 计划
 - 要做什么
 
-### 实际执行
-- 实际做了什么
+### 学习经验
+- 学到了什么、遇到了什么问题
 
 ### 测试结果
 - 测试命令：xxx
@@ -61,7 +61,7 @@
 - [ ] 完成开发日志模板
 - [ ] 完成 Git 快速指南
 
-### 实际完成
+### 学习经验
 - [x] ✅ MVP_Development_Plan.md 已创建
 - [x] ✅ Development_Log.md 已创建（当前文件）
 - [ ] ⏳ Git 快速指南创建中
@@ -78,16 +78,16 @@
 #### 计划
 按照 MVP_Development_Plan.md 的 Step 0.1 执行
 
-#### 实际执行
+#### 学习经验
 >MSF1:实际操作时使用了python -v进入了详细模式，才知道python -v和python -V不一样，后者才是python --version (注意是两个--，因为写错过哈哈哈)，且因为python -v 进入python详细模式后会输出很多日志文件，打印每日导入模块的详细信息。![详细模式截图](images/dev_log/step0.1-1.png)这时候进入的python要输入exit()，或者按下CTRL+Z后再按enter键退出。
 
 >MSF2:决定认真动手维护开发日志（本文件），而不是像之前那样靠ai写。发现自己一个问题：总是打错别字，键盘拼写需要练习。
 
->MSF3:学着写.md文件（专业名词叫markdown格式），问了ai才知道斜体的格式是*内容*，引用的格式是在这句话前面加一个>，只要不认为换行，就还算一句话。我选择用引用格式突出显示我自己的想法（备注有符号“MSF”），并在必要时候用*斜体*表示强调，每个想法下空一格。
+>MSF3:学着写.md文件（专业名词叫markdown格式），问了ai才知道斜体的格式是*内容*，引用的格式是在这句话前面加一个>，只要不认为换行，就还算一句话。我选择用引用格式突出显示我自己的想法（备注有符号"MSF"），并在必要时候用*斜体*表示强调，每个想法下空一格。
 
 >MSF4：学习了.gitkeep是如何用的，如何写.gitignore文件内容（注意：里面的目录斜杠是/,像Linux那样，而不是Windows的\）
 
->MSF5:一个电脑下可以安装很多python，每一个python有自己的pip包。当前使用pip --version输出的是pip 25.0.1 from D:\app\anaconda\Lib\site-packages\pip (python 3.12)表明它来自D:\app\anaconda的python，那么python是不是来自这个路径呢？仅仅使用python --version是看不出来的，①可以使用python -v刚刚的那个详细模式看具体的细节“D:\app\anaconda\Lib\encodings\...，最后行是Python 3.12.7 | packaged by conda-forge ...”。或者②使用 python -c "import sys; print(sys.executable)"打印当前python的路径。
+>MSF5:一个电脑下可以安装很多python，每一个python有自己的pip包。当前使用pip --version输出的是pip 25.0.1 from D:\app\anaconda\Lib\site-packages\pip (python 3.12)表明它来自D:\app\anaconda的python，那么python是不是来自这个路径呢？仅仅使用python --version是看不出来的，①可以使用python -v刚刚的那个详细模式看具体的细节"D:\app\anaconda\Lib\encodings\...，最后行是Python 3.12.7 | packaged by conda-forge ..."。或者②使用 python -c "import sys; print(sys.executable)"打印当前python的路径。
 
 #### 测试结果
 ```bash
@@ -117,7 +117,7 @@ PS E:\jiqixuexi\Hex_Strategist> pip --version                                   
 #### 计划
 
 
-#### 实际执行
+#### 学习经验
 无问题
 
 #### 测试结果
@@ -148,7 +148,7 @@ tgy2014@sina.com
 #### 计划
 
 
-#### 实际执行
+#### 学习经验
 >MSF1：bare仓库就是裸仓库，只用来放代码，不在里面写代码。
 
 >MSF2: 在vscode中打开两个窗口，一个用来本地Windows开发，一个ssh远程连接，只需要点击文件-新窗口就可以了。
@@ -181,7 +181,7 @@ Initialized empty Git repository in /home/ezreau/jiqixuexi/Hex_Strategist/hex-st
 #### 计划
 
 
-#### 实际执行
+#### 学习经验
 MSF1:在自己本地服务器192.168.1.200上配置远程仓库，需要先cd到建立仓库的地方，然后再建立一个bare仓库（git init --bare hex-strategist.gi）,然后再在Windows开发电脑上配置仓库位置（git remote set-url local ezreau@192.168.1.200:~/jiqixuexi/Hex-Strategist/hex-strategist.git注意这里用local因为origin已经被GitHub占用了，否则会报错rror: remote origin already exists.），最终配置好后，执行git push local master，就成功上传代码，如下图
 ![在自己服务器上配置好git local](images/dev_log/step0.4-1.png)
 
@@ -262,7 +262,7 @@ To 192.168.1.200:~/jiqixuexi/Hex-Strategist/hex-strategist.git
 #### 计划
 
 
-#### 实际执行
+#### 学习经验
 >MSF1：实际上我并没有使用venv建立环境，而是使用conda,好处是将来可能用到更多的包（科学计算、C语言或其他语言的依赖）conda可以安装，而采用venv创建环境就只能通过pip安装python包。
 
 >MSF2:如果使用python -m venv env-hex则会在项目目录中自动创建一个env-hex的环境文件夹，但是使用conda不会，conda的环境会统一放在D:\app\anaconda，即conda的安装位置。
@@ -295,7 +295,7 @@ truthguard             D:\app\anaconda\envs\truthguard
 #### 计划
 
 
-#### 实际执行
+#### 学习经验
 >MSF1:激活环境时，是conda activate env-hex 而不是activate conda env-hex(或者creativate!!!拼写错误)。
 
 >MSF2:我采用了两种方法测试：
@@ -345,7 +345,7 @@ tests\test_dependencies.py ✅ mss 导入成功
 #### Git 提交
 ```bash
 git commit -m "Add dependency test and requirements"
-# Commit ID：
+# Commit ID：d26193f
 ```
 
 ---
@@ -933,7 +933,7 @@ git commit -m "Complete MVP: Add final test log and documentation"
 - [ ] 任务1
 - [ ] 任务2
 
-#### 实际完成
+#### 学习经验
 - [x] 任务1 - 用时XX分钟
 - [ ] 任务2 - 未完成，原因：____
 
@@ -959,7 +959,7 @@ git commit -m "Complete MVP: Add final test log and documentation"
 - [x] 创建开发日志模板
 - [ ] 创建 Git 快速指南
 
-#### 实际完成
+#### 学习经验
 - [x] ✅ MVP_Development_Plan.md 完成（48个原子步骤，详细测试标准）
 - [x] ✅ Development_Log.md 完成（当前文件）
 
@@ -974,7 +974,7 @@ git commit -m "Complete MVP: Add final test log and documentation"
 #### 今日目标
 
 
-#### 实际完成
+#### 学习经验
 
 
 #### 遇到的问题
