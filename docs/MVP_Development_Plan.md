@@ -309,8 +309,7 @@ def test_import_mss():
     """测试 mss 截图库"""
     import mss
     assert mss is not None
-    print("
-    ")
+    print("✅ mss 导入成功")
 
 def test_import_pillow():
     """测试 Pillow 图像处理库"""

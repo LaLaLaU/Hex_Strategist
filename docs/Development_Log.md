@@ -350,21 +350,45 @@ git commit -m "Add dependency test and requirements"
 
 ---
 
-### [日期：____] - Step 0.7 - 配置 VSCode（可选）
+### [日期：2025.12.28（周日）] - Step 0.7 - 配置 VSCode（可选）
 
 #### 是否执行
-- [ ] 是，已配置
+- [√ ] 是，已配置
 - [ ] 否，跳过
 
+>MSF1:安装了这个微软官方的python插件后，vscode右下角就会有Python 3.x 这种按钮，点击可以直接选择激活的环境。
 ---
 
-### [日期：____] - Step 0.8 - 创建配置文件模板
+### [日期：2025.12.30（周二早）] - Step 0.8 - 创建配置文件模板
+
+#### 学习经验
+>MSF1：昨天12.29下班吃饭整理完毕后21：30分，整个人状态不佳，选择早早洗漱睡觉，22：40入眠。在12.30一早5点就起床开始学习代码，这样的话到7点40出门上班有2个多小时的学习时间。最佳的状态，留给最爱的事业。![早起](images/dev_log/step0.8-早起.jpg)
+
+>MSF2:为了进一步精进练习代码命令，我把vscode的编辑区和终端的输入提示都关闭了。其中编辑区通过设置搜索inline suggest选择第五项，终端通过输入Set-PSReadLineOption -PredictionSource None实现本次终端提示关闭。
+
+>MSF3:在通过命令行创建新文件的时候，New-Item -ItemType File -Path .env意为在当前工作目录中，新建一个名为 .env 的空文件，不要写成 New_Ietm -ItemType File -Path .env（注意下划线）![终端创建新文件命令](images/dev_log/step0.8-1.png)
+
+>MSF4:变量名的名称不是死的，但是遵循以下规范（PEP 8 python官方规范）：①常量名用 全大写+下划线。②普通变量名用 全小写+下划线。③类名称用 驼峰写法。④函数名用 全小写+下划线。
+
+>MSF5:引入os、dotenv库 →→ load_dotenv()读取环境变量存放的文件env →→ GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")再从环境变量里拿取并赋值(这里注意拼写，我在敲代码时一度把getenv敲成了dotenv)，以上是一整套获取环境变量的方法，这样实现真正的KEY值藏在另一个文件且不耽误调用使用。其中os.getenv（）支持两个变量，前面是要查找的，后面是找不到默认的。
+
+>MSF6:所谓防御式编程就是在问题产生前提前确认和解决，if LLM_PROVIDER == "gemini" and not GEMINI_API_KEY:
+    raise ValueError("缺少GEMINI_API_KEY请再.env文件配置")
+    就是为了避免在实际运行工程时才发现缺少API_KEY，于是在配置文件中就通过条件限定的方式确认确实填入了API_KEY，因为配置文件src.config.py在主程序头会被引用，因此在引用时就会报错退出程序运行（因为引用模块的语句，import src.config虽然就一句话，但是系统会在后台通跑一边这个模块）。拼写上注意① "gemini"的引号不能少，因为gemini要作为一个字符串进行比对，不加引号则视为变量。② if条件后面的冒号:不能少。
+
+>MSF7:路径配置方法为先用os.path.dirname()找到根目录PROJECT_ROOT的绝对路径，然后再使用os.path.join()拼接PROJECT_ROOT和output、assets等目录，得出output、assets这些目录的绝对路径。这样的好处有① 文件保存地址更改时只需要改一个os.path.join()的参数，而不用把所有用到这个目录路径的地方全都改了。 ② 队友协作时不同人的电脑上都可以找到每人电脑上自己的跟目录。③ os.path.join()本质是拼接目录，不管你用的是Windows的\还是Linux的/，此外拼写上注意获取绝对路径的函数叫os.path.abspath()，而不是os.path.obspath()！
+
+>MSF8:在配置文件这里设置个DEBUG_MODE是为了在代码开发时配置一个“详细模式”，后续的代码会判断我们是否处于这个详细模式，如果是的，则会输出很多过程信息用于更充分信息的开发。将来项目完成，面向用户则可关闭改模式，过程中的日志，截图都不需要生成和显示，提高运行效率且保护隐私。
+
+
 
 #### 测试结果
 ```bash
-python -c "from src.config import *; print('PROJECT_ROOT:', PROJECT_ROOT)"
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> python -c "from src.config import *; print('PROJECT_ROOT:', PROJECT_ROOT); print('HEX_ICONS_DIR:', HEX_ICONS_DIR)"
+PROJECT_ROOT: E:\jiqixuexi\Hex_Strategist
+HEX_ICONS_DIR: E:\jiqixuexi\Hex_Strategist\assets\hex_icons
 
-# 状态：
+# 状态：✅ 通过
 ```
 
 #### Git 提交
@@ -392,10 +416,7 @@ git commit -m "Add config file template"
 - [ ] Step 0.7 (可选)
 - [ ] Step 0.8 ✅
 
-### 遇到的主要问题
 
-
-### 学到的经验
 
 
 ### 下一步
