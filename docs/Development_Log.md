@@ -393,8 +393,8 @@ HEX_ICONS_DIR: E:\jiqixuexi\Hex_Strategist\assets\hex_icons
 
 #### Git 提交
 ```bash
-git commit -m "Add config file template"
-# Commit ID：
+git commit -m "completed step0.8"
+# Commit ID：0b6ce05
 ```
 
 ---
@@ -402,19 +402,18 @@ git commit -m "Add config file template"
 ## Phase 0 完成总结
 
 ### 完成日期
-- 开始：____
-- 结束：____
-- 总耗时：____ 小时
+- 开始：2025.12.28
+- 结束：2025.12.30
 
 ### 完成情况
-- [ ] Step 0.1 ✅
-- [ ] Step 0.2 ✅
-- [ ] Step 0.3 ✅
-- [ ] Step 0.4 ✅
-- [ ] Step 0.5 ✅
-- [ ] Step 0.6 ✅
-- [ ] Step 0.7 (可选)
-- [ ] Step 0.8 ✅
+- [✅] Step 0.1 ✅
+- [✅] Step 0.2 ✅
+- [✅] Step 0.3 ✅
+- [✅] Step 0.4 ✅
+- [✅] Step 0.5 ✅
+- [✅] Step 0.6 ✅
+- [✅] Step 0.7 (可选)
+- [✅] Step 0.8 ✅
 
 
 
@@ -427,6 +426,17 @@ git commit -m "Add config file template"
 ## Phase 1: 感知层开发
 
 ### [日期：____] - Step 1.1 - 实现基础截图功能
+#### 学习经验
+>MSF1:files = os.listdir(OUTPUT_DIR)这句话中的os.listdir()函数括号中放的是路径，整个函数得到的是名字（list列表格式），包含文件名和括号中路径的子目录名字。
+
+>MSF2:第一次接触“列表推导式”语法：screenshot_files = [f for f in files if f.starstwith("capture_") and f.endswith(".png")]，表示对files中的每一个f([]中的第二个f)进行条件筛选，条件是文件名开头带着capture_并且文件名结尾带着.png，筛选后的f([]中的第二个f)返回，以f的样子([]中的第一个f，即没有改变f原来的样子，只是做了筛选)。它相当于
+screenshot_files = []
+for f in files:
+    if f.startswith("capture_") and f.endswith(".png"):
+        screenshot.files.append(f)
+如果想要“变形后再放进去”，也可以，比如把文件名转成大写：
+[f.upper() for f in files if f.startswith("capture_") and f.endswith(".png")]
+此外，注意拼写：应该是 startswith 和 endswith，不是 startwith / endwith。
 
 #### 测试结果
 ```bash
