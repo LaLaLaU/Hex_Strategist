@@ -1,5 +1,5 @@
 # 截屏
-mss==9.0.1
+mss>=10.1.0
 
 # 图像处理
 Pillow==10.1.0
@@ -22,4 +22,5 @@ python-dotenv==1.0.0
 requests==2.31.0
 
 # 开发工具
-pytest==7.4.3
+pytest==9.0.2
+dotenv>=0.9.9

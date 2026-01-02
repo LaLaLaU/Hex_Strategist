@@ -110,7 +110,6 @@
 - **函数/变量**：`lowercase_with_underscores`（如 `capture_fullscreen`）
 - **类名**：`CapitalizedWords`（后续会用到）
 
-
 ### 每个 Step 完成后必须：
 1. ✅ 测试通过
 2. ✅ 更新开发日志（MSF 记录 + 测试结果）
