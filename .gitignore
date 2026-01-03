@@ -43,7 +43,8 @@ data/cache/
 *.log
 docs/images/dev_log
 !docs/images/dev_log.gitkeep
-output/roi
+output/
+roi/
 
 # API Keys
 .env
