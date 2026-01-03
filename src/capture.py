@@ -3,9 +3,10 @@
 
 
 import os
+import winsound
 import mss
 import mss.tools
-import mss
+import keyboard
 from datetime import datetime
 from src.config import OUTPUT_DIR,DEBUG_MODE,SCREEN_RESOLUTION
 
@@ -39,6 +40,27 @@ def capture_fullscreen():
         else:
             print("DEBUG_MODE=false，截图未保存")
             return None
+
+def start_capture_service():
+    """启动截图服务：监听F9触发截图，ESC退出"""
+    print("截图服务已启动：")
+    def on_shot_press():
+        """F9回调：执行一次截图。"""
+        winsound.Beep(1200,120)
+        print("\n检测到F9，开始截图...")
+        filepath = capture_fullscreen()
+
+        if filepath:
+            file_size_kb = os.path.getsize(filepath) / 1024
+            print(f"截图完成：{filepath}({file_size_kb:.1f}KB)")
+        else:
+            print("截图完成，但DEBUFG_MODE=false,未保存文件。")
+    
+    keyboard.add_hotkey("ctrl+shift",on_shot_press)
+    keyboard.add_hotkey("ctrl+tab",on_shot_press)
+    keyboard.wait("esc")    
+    print("\n已退出截图服务。") 
+
 
 if __name__ == "__main__":
     print("执行快速截图测试...")

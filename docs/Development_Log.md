@@ -539,23 +539,46 @@ tests\test_capture.py 开始测试全屏截图功能...
 #### Git 提交
 ```bash
 git commit -m "Implement basic screenshot functionality"
-# Commit ID：
+# Commit ID：2b6716a
 ```
 
 ---
 
-### [日期：____] - Step 1.2 - 添加按键触发功能
+### [日期：2026.1.2] - Step 1.2 - 添加按键触发功能
 
 #### 测试结果
 ```bash
-python tests/test_hotkey.py
+ python .\tests\test_hotkey.py
+====================================================================================================
+热键测试启动
+====================================================================================================
+操作说明：
+1)按下F9：触发截图
+2)截图保存目录：E:\jiqixuexi\Hex_Strategist\output
+3)按ESC退出
+====================================================================================================
+
+等待按键...
+截图服务已启动：
+
+检测到F9，开始截图...
+截图已保存：E:\jiqixuexi\Hex_Strategist\output\capture_20260102_230010.png
+分辨率：2560x1440
+截图完成：E:\jiqixuexi\Hex_Strategist\output\capture_20260102_230010.png(437.9KB)
+
+检测到F9，开始截图...
+截图已保存：E:\jiqixuexi\Hex_Strategist\output\capture_20260102_230027.png
+分辨率：2560x1440
+截图完成：E:\jiqixuexi\Hex_Strategist\output\capture_20260102_230027.png(470.1KB)
+
+已退出截图服务。
 
 # 操作：
 # 1. 按 F9 - 结果：
 # 2. 查看 output/ - 生成文件：
 # 3. 按 ESC - 结果：
 
-# 状态：
+# 状态：✅ 通过
 ```
 
 #### Git 提交
@@ -563,6 +586,13 @@ python tests/test_hotkey.py
 git commit -m "Add hotkey trigger (F9) for screenshot"
 # Commit ID：
 ```
+#### 学习经验
+>MSF1:原定使用F9截图和ESC退出在游戏外有效，但是在游戏内失效（开启管理者运行F9还是失效，但是ESC有效）。此外经测试基本上把游戏内正经按键比如A B C 1 F1 等类型的按键都不能触发，最后选择如MSF2。插曲：为了判定截图是否生效，还调用winsound在截图触发时响一声，这个库很神奇地在于它不需要安装，是win自带的。
+
+>MSF2:经过反复测试，结论如下：
+1.要想在游戏内触发截图还是要打开管理员运行。2.不要再劝我了，我就用ctrl+shift和ctrl+tab触发。前者用来截图hex选择页面![海克斯选择图](<images/dev_log/step1.2-1 hex_choice.png>)，后者用来截图装备tab页面。![装备信息页面](<images/dev_log/step1.2-2 tab_press.png>)
+
+>MSF3:在游戏内不能通过mss截图时，考虑过使用英伟达alt+F1游戏内置截图方法，但是因为这种方法没办法实现内存级ROI，被否定，决定继续攻破mss截图问题。
 
 ---
 
