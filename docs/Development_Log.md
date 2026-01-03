@@ -584,7 +584,7 @@ git commit -m "Implement basic screenshot functionality"
 #### Git 提交
 ```bash
 git commit -m "Add hotkey trigger (F9) for screenshot"
-# Commit ID：
+# Commit ID：d077e40
 ```
 #### 学习经验
 >MSF1:原定使用F9截图和ESC退出在游戏外有效，但是在游戏内失效（开启管理者运行F9还是失效，但是ESC有效）。此外经测试基本上把游戏内正经按键比如A B C 1 F1 等类型的按键都不能触发，最后选择如MSF2。插曲：为了判定截图是否生效，还调用winsound在截图触发时响一声，这个库很神奇地在于它不需要安装，是win自带的。
@@ -592,24 +592,25 @@ git commit -m "Add hotkey trigger (F9) for screenshot"
 >MSF2:经过反复测试，结论如下：
 1.要想在游戏内触发截图还是要打开管理员运行。2.不要再劝我了，我就用ctrl+shift和ctrl+tab触发。前者用来截图hex选择页面![海克斯选择图](<images/dev_log/step1.2-1 hex_choice.png>)，后者用来截图装备tab页面。![装备信息页面](<images/dev_log/step1.2-2 tab_press.png>)
 
->MSF3:在游戏内不能通过mss截图时，考虑过使用英伟达alt+F1游戏内置截图方法，但是因为这种方法没办法实现内存级ROI，被否定，决定继续攻破mss截图问题。
+>MSF3:在游戏内不能通过mss截图时，考虑过使用英伟达alt+F1游戏内置截图后再处理图片的替代方法，但是因为这种方法没办法实现内存级ROI，被否定，决定继续攻破mss截图问题。
 
 ---
 
-### [日期：____] - Step 1.3 - 标注 ROI 区域坐标
+### [日期：2026.1.3] - Step 1.3 - 标注 ROI 区域坐标
 
 #### 游戏内操作记录
 - 游戏模式：海克斯大乱斗
-- 截图时间：____
-- 截图文件：output/capture___________.png
+- 截图时间：2026.1.3
+- 截图文件：output/hex_choice.png
 
 #### ROI 坐标测量结果
 ```python
 # 填入 src/config.py 的实际坐标
 ROI_CONFIG = {
-    "hex_choice_1": (___, ___, ___, ___),  # 第一个图标
-    "hex_choice_2": (___, ___, ___, ___),  # 第二个图标
-    "hex_choice_3": (___, ___, ___, ___),  # 第三个图标
+    "hex_name_1": (643, 550, 975, 595),  # 第一个海克斯名称位置
+    "hex_name_2": (1108, 548, 1457,598),  # 第二个海克斯名称位置
+    "hex_name_3": (1574, 546, 1934, 594),  # 第三个海克斯名称位置
+    "hero_face":(754,1287,847,1375), # 英雄面部区域（后加）
 }
 ```
 
@@ -629,7 +630,11 @@ python tests/test_roi.py
 # 状态：
 ```
 
-#### 遇到的问题
+#### 学习经验
+>MSF1:不使用phash识别海克斯了，采用海克斯的名称框ocr识别，phash用于英雄人脸和装备图标。
+
+>MSF2:roi = ROI_CONFIG.get(key)是字典的get用法，意为从ROI_CONFIG这个字典中拿到名字为key的那个词条对应的值。
+
 
 
 #### Git 提交

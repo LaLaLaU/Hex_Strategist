@@ -762,7 +762,7 @@ git push origin master
 ## Step 1.3 - 标注 ROI 区域坐标
 
 ### 📝 测试标准
-- 进入游戏，按 F9 截取海克斯选择界面
+- 进入游戏，按热键截取海克斯选择界面
 - 使用标注工具记录3个图标的精确坐标
 - 更新 `src/config.py` 中的 `ROI_CONFIG`
 - 运行验证脚本，能正确裁剪出3个图标
@@ -777,7 +777,7 @@ git push origin master
 python tests/test_hotkey.py
 ```
 3. 在游戏中触发海克斯选择界面（Level 3/7/11/15）
-4. **立即按 F9** 截图
+4. **立即按 热键** 截图
 5. 按 ESC 退出服务
 6. 找到 `output/` 目录中最新的截图
 

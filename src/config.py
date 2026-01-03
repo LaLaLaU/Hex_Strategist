@@ -10,10 +10,10 @@ SCREEN_RESOLUTION =  (2560,1440)
 #=================== ROI区域配置 ====================
 #以下配置在step1.3中写入具体设置
 ROI_CONFIG = {
-    "hex_choice_1": None, #待标注
-    "hex_choice_2": None,
-    "hex_choice_3": None,
-    "hero_name": None,
+    "hex_name_1": (643, 550, 975, 595),  # 第一个海克斯名称位置
+    "hex_name_2": (1108, 548, 1457,598),  # 第二个海克斯名称位置
+    "hex_name_3": (1574, 546, 1934, 594),  # 第三个海克斯名称位置
+    "hero_face":(754,1287,847,1375), # 英雄面部区域（后加）
 }
 
 #===================== API配置 =====================
@@ -30,6 +30,7 @@ ASSETS_DIR = os.path.join(PROJECT_ROOT,"assets")
 HEX_ICONS_DIR = os.path.join(ASSETS_DIR,"hex_icons")
 OUTPUT_DIR = os.path.join(PROJECT_ROOT,"output")
 LOGS_DIR = os.path.join(PROJECT_ROOT,"logs")
+ROI_DIR = os.path.join(OUTPUT_DIR,"roi")
 
 #====================== 性能配置 ====================
 PHASH_THERSHOLD = 10  # phash 汉明距离阈值

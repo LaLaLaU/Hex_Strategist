@@ -1,6 +1,6 @@
-"""测试F9热键触发
+"""测试热键触发
 验收标准：
-1.按下F9：触发截图（DEBUG_MODE=true 时保存到output/）
+1.按下热键：触发截图（DEBUG_MODE=true 时保存到output/）
 2.按下ESC退出监听并结束程序。
 """
 
@@ -14,7 +14,7 @@ def test_hotkey_capture():
     print("热键测试启动")
     print("="*100)
     print("操作说明：")
-    print("1)按下F9：触发截图")
+    print("1)按下热键：触发截图")
     print(f"2)截图保存目录：{OUTPUT_DIR}")
     print("3)按ESC退出")
     print("="*100)
