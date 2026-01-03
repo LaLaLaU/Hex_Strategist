@@ -616,22 +616,32 @@ ROI_CONFIG = {
 
 #### 测试结果
 ```bash
-python tests/test_roi.py
+
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> python .\tests\test_roi.py   
+使用截图：capture_20260103_225336.png
+截图尺寸：2560x1440
+hex_name_1-> 332x45保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_1.png
+hex_name_2-> 349x50保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_2.png  
+hex_name_3-> 360x48保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_3.png  
+hero_face-> 93x88保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hero_face.png     
+
+ROI 预览图：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_preview.png
+手动打开它，检查红框是否准确框住ROI区域。
 
 # 输出：
 
-
 # 生成文件：
-# - output/roi_test_icon_1.png - 尺寸：____
-# - output/roi_test_icon_2.png - 尺寸：____
-# - output/roi_test_icon_3.png - 尺寸：____
-# - output/roi_preview.png - 红框是否准确：✅/❌
+# output\roi\capture_20260103_225336.png_roi_hex_name_1.png
+# output\roi\capture_20260103_225336.png_roi_hex_name_2.png  
+# output\roi\capture_20260103_225336.png_roi_hex_name_3.png  
+# output\roi\capture_20260103_225336.png_roi_hero_face.png
+# - output/roi_preview.png - 红框是否准确：✅准确
 
-# 状态：
+# 状态：✅ 通过
 ```
 
 #### 学习经验
->MSF1:不使用phash识别海克斯了，采用海克斯的名称框ocr识别，phash用于英雄人脸和装备图标。
+>MSF1:不使用phash识别海克斯了，采用海克斯的名称框ocr识别（坐标是我打开画图软件自己定位的，如图![手画定位ROI](<images/dev_log/step1.3-1 手画hex_choice名称_Hero识别.png>)），phash用于英雄人脸和装备图标。实际上定位到的效果如图所示，目前还没有想好装备是直接通过上图下方装备栏识别（最好，少按一次按键）还是通过Tab页面识别，具体要看识别时的测试效果。![实际ROI选定效果](<images/dev_log/step1.3-2 实际捕捉的红框画面案例.png>)
 
 >MSF2:roi = ROI_CONFIG.get(key)是字典的get用法，意为从ROI_CONFIG这个字典中拿到名字为key的那个词条对应的值。
 
