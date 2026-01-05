@@ -3,22 +3,21 @@ mss>=10.1.0
 
 # 图像处理
 Pillow==10.1.0
-imagehash==4.3.1
+imagehash==
 
 # OCR
-paddleocr==2.7.0
-paddlepaddle==2.6.0
+paddleocr==
+paddlepaddle==
 
 # LLM API
-openai==1.12.0
-anthropic==0.18.1
-google-generativeai==0.3.2
+openai==
+anthropic==
+google-generativeai==
 
 # 语音合成
-edge-tts==6.1.9
+edge-tts==
 
 # 工具
-python-dotenv==1.0.0
 requests==2.31.0
 
 # 开发工具

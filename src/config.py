@@ -21,8 +21,8 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") #得益于load_dotenv()加载过环
 LLM_PROVIDER = os.getenv("LLM_PROVIDER","gemini")
 
 #防御式编程，检查API的设置
-if LLM_PROVIDER == "gemini" and not GEMINI_API_KEY:
-    raise ValueError("缺少GEMINI_API_KEY请再.env文件配置")
+# if LLM_PROVIDER == "gemini" and not GEMINI_API_KEY:
+#     raise ValueError("缺少GEMINI_API_KEY请再.env文件配置")
 
 #====================== 路径配置 ====================
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

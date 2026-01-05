@@ -61,10 +61,6 @@
 - [ ] 完成开发日志模板
 - [ ] 完成 Git 快速指南
 
-### 学习经验
-- [x] ✅ MVP_Development_Plan.md 已创建
-- [x] ✅ Development_Log.md 已创建（当前文件）
-- [ ] ⏳ Git 快速指南创建中
 
 ### 下一步计划
 - 开始 Phase 0: 环境准备
@@ -499,8 +495,8 @@ API：httpx 或 requests
 >MSF10:vscode输入时自动补全功能会给出函数的用法提示，这个提示怎么看：如图所示![自动补全提示解读](images/dev_log/step1.1-1.png)vscode给出了mss.tools().to_png()方法的用法，(data: bytes, size: tuple[int, int], /, *, level: int = 6, output: Path | str | None = None) -> (bytes | None)的具体解读如下：
 ①第一个参数为data，格式bytes，内容对应的是图片的RGB数值。
 ②第二个参数是size，格式一个二元组 (宽, 高)，都是整数，即这张图的尺寸
-③符号/意味着 在它前面的参数只能用“位置参数”传（positional-only），相对于keyword-only（继续往下读），可以写裸参数
-④符号*意味着 从这里开始，后面的参数只能用“关键字参数”传（keyword-only），必须写成level=6、output=...这种参数名称和=一起用的形式
+③符号/意味着 在它前面的参数只能用“位置参数”传（positional-only），相对于keyword-only（关键字参数，继续往下读），可以写裸参数。所谓的位置参数是指这个函数的参数调用和位置的顺序有关系，顺序不能乱。所以不需要把参数名写出来就可以指导第一、二、三个参数固定是什么意思。
+④符号*意味着 从这里开始，后面的参数只能用“关键字参数”传（keyword-only），必须写成level=6、output=...这种参数名称和=一起用的形式。因为关键字参数在函数调用时不需要顺序，但是需要标明参数名称，所以就必须要写output=...这种名称，但是他的顺序只要是不妨碍位置参数，均可以随便放。
 ⑤output: Path | str | None = None 意味着参数名叫output即路径，类型可以是Path、str或者None，模式是None
 ⑥-> (bytes | None) 这是返回值提示，如果output是None，那么就以bytes形式返回png文件的内容；如果output写了文件路径，那么则会在这个路径写入文件，然后返回None
 
@@ -645,17 +641,22 @@ ROI 预览图：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.p
 
 >MSF2:roi = ROI_CONFIG.get(key)是字典的get用法，意为从ROI_CONFIG这个字典中拿到名字为key的那个词条对应的值。
 
-
+>MSF3:要想在图片上画一个框子（假设红色）流程如下：
+①：先Image.new()创建一个overlay叠加层，图层设为透明。
+②：用ImageDraw.Draw()获取画笔对象draw，注意Image和ImageDraw都属于pillow库，但是不同的模块。
+③：用刚获取的draw画一个红色方框。
+④：用Image.alpha_composite()合成预览图，注意此函数参数里将底图转化为RGBA格式。
+⑤：用preview.save()保存预览图到指定路径。
 
 #### Git 提交
 ```bash
 git commit -m "Add ROI configuration and test"
-# Commit ID：
+# Commit ID：072564d
 ```
 
 ---
 
-### [日期：____] - Step 1.4 - 实现 OCR 文本识别
+### [日期：2026.1.4] - Step 1.4 - 实现 OCR 文本识别
 
 #### 测试结果
 ```bash
@@ -669,6 +670,77 @@ python tests/test_ocr.py
 
 # 状态：
 ```
+#### 学习经验
+>MSF1:在定义函数的时候，函数名前有一个短下划线_，约定这种函数指在内部使用，不作为通用外部程序调用。不过此做法为约定俗成，提升代码可维护性，不是强制如此。
+
+>MSF2:今天有个同事向领导公布辞职的消息，晚上我们海底捞聚餐送行。新生也是生，我们请了服务员唱生日歌。送的蛋糕我吃下了最后一口，那么好运由我继承，加油啊。（2025.1.4  20：39）
+
+>MSF3:学习到了python自带标准库functools中的lru_cache装饰器(Least Recently Used Cache，即最近最小的缓存，因为缓存满了以后系统会优先淘汰最久没用的缓存，意为lru缓存最不会被优先淘汰)的用法，这是我第一次听说“装饰器”。它的使用是和函数配套出现，可以理解为一种装饰用的标记，位置在于函数的上面一行，@lru_cache与def一样要顶格写。
+其作用可以简单理解为：假如我有个被装饰器装饰过的函数，这个函数里虽然有个很复杂的数学公式，但是因为数学公式毕竟固定，导致输入和输出是固定一一对应的，比如我输入5输出必定是13，那么这个装饰器的作用是不是每当系统检测到我输入的是5，就不用计算直接返回已经缓存好的13
+--------------那么，为什么在这里使用了装饰器：
+@lru_cache(maxsize=1)
+def _get_ocr() -> PaddleOCR:
+    """初始化 PaddleOCR 3.x Pipeline 
+    使用PP-OCRv5_mobile_det检测模型、PP-OCRv5_mobile_rec识别两个轻量模型
+    实例化教程来自于官方文档“快速开始” https://www.paddleocr.ai/latest/quick_start.html#_2
+    ，并缓存，避免每次调用都重新加载模型"""
+    return PaddleOCR(
+        text_detection_model_name="PP-OCRv5_mobile_det"，
+        text_recognition_model_name="PP-OCRv5_mobile_rec",
+        use_doc_orientation_classify=False,
+        use_doc_unwarping=False,
+        show_log=False,
+    )
+----------------原因如下：
+①：为了避免每一次调用paddleocr实例识别1次hex_name就需要加载一次模型（涉及到磁盘读取、分配显存、构建计算图等沉重操作，需要1~3秒），会导致延迟高，且显存迅速耗尽。
+②：零延迟复用，通过缓存，模型仅在第一次初始化，之后所有调用都直接复用内存中同一个实例，实现毫秒级响应。
+③：资源保护，一个 PP-OCRv5 Mobile 模型在显存里大约占用 200MB - 400MB（包括框架预分配和计算空间）复用防止显存崩溃。
+
+>MSF4：定义类的时候，中间的参数要用逗号隔开。因为参数比较多，可能分行，每行之间的逗号不要忘记
+
+>MSF5:既然paddleocr支持mcp调用，为什么不直接用大模型使用mcp工具调用识别游戏画面，而是自己费劲巴拉写paddleocr的实例程序呢？
+回答：(待补充！)
+
+>MSF6：小技巧： ctrl+/  可以给代码批量注释。
+
+>MSF7:编程过程不要混用空格键和tab键，可能会导致编辑器自动缩进时出问题。在设置里可以通过Ctrl + Shift + P，，输入 Render Whitespace（渲染空白字符）。更简便的方法时拖动选择你要的代码，空格处会自动出现小白点。
+
+>MSF8: continue 用在循环中表示“结束当前参数的循环，进入本循环结构中的下个参数循环”
+
+>MSF9:学习一个大技巧：DEBUG！①：进入这个页面可以通过F5进入，也可以点击vscode左侧栏第4个按钮（有个小虫子）进入。②：进入后在debug栏的右上绿色小三角处选择python file（要选择当前环境的）。
+③：debug常用的按键为F5(执行/继续执行)，F10(跳过)，F11（单步执行）等，也可以配合debug进行时跳出来的悬浮ui按钮执行。
+④：在代码对应行数数字前点击暗红色点就是添加断点，程序走到这里会停下。然后再配合单步F11或者跳过F10等深入细节。
+⑤：在debug页面的左侧可以查看实时的参数值，比如通过这个页面看到了predict（）函数返回的数据结构“真面目”如图![数据结构真面目](<images/dev_log/stpe1.4-3 predict()返回数据结构.png>)
+
+>MSF10:第一次实战过程：第一次跟着gpt5.2生成代码在ocr.py中写下：
+```
+def recognize_text(image_path: str) -> str:
+    """识别图片中的文本，返回拼接后的字符串。"""
+    ocr = _get_ocr()
+    result = ocr.predict(image_path)
+
+    texts: list[str] = []
+
+    # 文档输出示例：每个元素像 {'res': {...}}
+    for item in result or []:
+        if not isinstance(item, dict):
+            continue
+
+        res = item.get("res")
+        if not isinstance(res, dict):
+            continue
+
+        rec_texts = res.get("rec_texts")
+        if isinstance(rec_texts, list):
+            for t in rec_texts:
+                s = str(t).strip()
+                if s:
+                    texts.append(s)
+
+    return " ".join(texts).strip()
+```
+>但是实际上走到这里会报错如图![debug失败](<images/dev_log/step1.4-2 debug失败画面.png>)然后再往下走得出来的text就是空。但是通过使用下面代码。。。。。。。。。。。。。。。。。。
+
 
 #### Git 提交
 ```bash
