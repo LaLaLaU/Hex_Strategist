@@ -656,19 +656,31 @@ git commit -m "Add ROI configuration and test"
 
 ---
 
-### [日期：2026.1.4] - Step 1.4 - 实现 OCR 文本识别
+### [开始日期：2026.1.4] - Step 1.4 - 实现 OCR 文本识别
 
 #### 测试结果
 ```bash
-python tests/test_ocr.py
+(env-hex) PS E:\jiqixuexi\Hex_Strategist> & D:/app/anaconda/envs/env-hex/python.exe e:/jiqixuexi/Hex_Strategist/tests/test_ocr.py
+Checking connectivity to the model hosters, this may take a while. To bypass this check, set `DISABLE_MODEL_SOURCE_CHECK` to `True`.
+使用 ROI 图片：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_1.png
+信息: 用提供的模式无法找到文件。
+D:\app\anaconda\envs\env-hex\Lib\site-packages\paddle\utils\cpp_extension\extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+Creating model: ('PP-LCNet_x1_0_textline_ori', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-LCNet_x1_0_textline_ori`.
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+W0107 07:09:27.453351 178496 gpu_resources.cc:114] Please NOTE: device: 0, GPU Compute Capability: 8.6, Driver API Version: 12.6, Runtime API Version: 12.6
+Creating model: ('PP-OCRv5_mobile_det', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-OCRv5_mobile_det`.
+Creating model: ('PP-OCRv5_mobile_rec', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-OCRv5_mobile_rec`.
+W0107 07:09:28.770181 178496 gpu_resources.cc:243] WARNING: device: 0. The installed Paddle is compiled with CUDNN 9.9, but CUDNN version in your machine is 9.5, which may cause serious incompatible bug. Please recompile or reinstall Paddle with compatible CUDNN version.
+OCR 结果：'吵闹鬼'
 
-# 首次运行（下载模型）：
-# 模型下载时间：____ 分钟
-
-# 识别结果：
+# 识别结果：OCR 结果：'吵闹鬼'
 
 
-# 状态：
+# 状态：✅ 通过
 ```
 #### 学习经验
 >MSF1:在定义函数的时候，函数名前有一个短下划线_，约定这种函数指在内部使用，不作为通用外部程序调用。不过此做法为约定俗成，提升代码可维护性，不是强制如此。
@@ -739,10 +751,56 @@ def recognize_text(image_path: str) -> str:
 
     return " ".join(texts).strip()
 ```
->但是实际上走到这里会报错如图![debug失败](<images/dev_log/step1.4-2 debug失败画面.png>)然后再往下走得出来的text就是空。但是通过使用下面代码。。。。。。。。。。。。。。。。。。
+>但是实际上走到这里会报错如图![debug失败](<images/dev_log/step1.4-2 debug失败画面.png>)然后再往下走得出来的text就是空。但是通过使用下面代码可以走通：
+```
+def recognize_text(image_path: str) -> str:
+    """识别图片中的文本，返回拼接后的字符串。"""
+    ocr = _get_ocr()
+    result = ocr.predict(image_path)
 
+    texts: list[str] = []
 
-#### Git 提交
+    # result 是一个对象列表
+    for item in result:
+        # 1. 尝试获取对象的 'res' 属性（它是一个字典）
+        # 如果 item 本身就是字典，则直接使用 item
+        res_dict = getattr(item, "res", item if isinstance(item, dict) else {})
+        
+        # 2. 从字典中提取 'rec_texts'
+        if isinstance(res_dict, dict):
+            rec_texts = res_dict.get("rec_texts", [])
+            for t in rec_texts:
+                s = str(t).strip()
+                if s:
+                    texts.append(s)
+
+    return " ".join(texts).strip()
+```
+>走通如图![debug成功](<images/dev_log/step1.4-1 debug成功画面.png>)，这个是Gemini后来给的程序。于是尝试着区debug，通过左侧变量栏发现即使是旧的程序（失败那个）在运行到predict()后实际上result里也是有rec_texts信息的，那为什么最后输出为空呢？继续排查发现rec_texts所处的数据结构层级如图所示![result的数据结构](<images/dev_log/stpe1.4-3 predict()返回数据结构.png>)
+实际的结构为：result[0] -> rec_texts[] 。真相大白！原来程序里写的获取方法是从res里寻找：
+```
+    # 文档输出示例：每个元素像 {'res': {...}}
+    for item in result or []:
+        if not isinstance(item, dict):
+            continue
+
+        res = item.get("res")
+        if not isinstance(res, dict):
+            continue
+
+        rec_texts = res.get("rec_texts")
+```
+>但是，返回的数据结构中根本就没有键叫做res！因此只需要把rec_texts寻找改成：
+```
+...
+       rec_texts = item.get("rec_texts")
+...
+```
+>于是就可以正确输出识别字符！那么为什么之前给的程序非常执着于用res查找呢，因为在排查是否为模型问题时调用了官方的示例如图![官方输出示例](<images/dev_log/step1.4-4 paddleocr官方输出示例.png>)，确实在终端有了输出（即排查到模型没有问题，已经正常安装），但是仔细查看输出形式如下{'res': {'input_path':..'rec_texts':..}}所以程序执着于去寻找res。PaddleOCR 3.0 的 Result 对象在 __str__（也就是打印显示）时，为了方便人类阅读，伪造了一个名为 res 的外壳；但在真实的内存里，这个外壳是不存在的，数据是直接平铺的。
+
+>MSF11:为了暂时不处理GPU的CUDNN 9.9 vs 9.5 驱动冲突警告，先在ocr.py中加了device='cpu'强制使用cpu这样牺牲速度但是可以换来MVP阶段的稳定。
+
+#### Git 提交[完成日期：2026.1.7]
 ```bash
 git commit -m "Implement OCR functionality with PaddleOCR"
 # Commit ID：

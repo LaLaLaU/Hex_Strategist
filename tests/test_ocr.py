@@ -25,7 +25,7 @@ def _latest_roi_image_path(key:str) -> str:
 def test_ocr_on_hex_name_1():
     from src.ocr import recognize_text
 
-    img_path = _latest_roi_image_path("hex_name_3")
+    img_path = _latest_roi_image_path("hex_name_1")
     print(f"使用 ROI 图片：{img_path}")
 
     text = recognize_text(img_path)

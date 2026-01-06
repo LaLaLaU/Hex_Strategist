@@ -18,6 +18,7 @@ def _get_ocr() -> PaddleOCR:
         text_recognition_model_name="PP-OCRv5_mobile_rec",
         use_doc_orientation_classify=False,
         use_doc_unwarping=False,
+        device = 'cpu',
     )
 
 def recognize_text(image_path:str) -> str:
