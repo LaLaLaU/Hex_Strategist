@@ -663,18 +663,17 @@ git commit -m "Add ROI configuration and test"
 (env-hex) PS E:\jiqixuexi\Hex_Strategist> & D:/app/anaconda/envs/env-hex/python.exe e:/jiqixuexi/Hex_Strategist/tests/test_ocr.py
 Checking connectivity to the model hosters, this may take a while. To bypass this check, set `DISABLE_MODEL_SOURCE_CHECK` to `True`.
 使用 ROI 图片：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_1.png
+Creating model: ('PP-LCNet_x1_0_textline_ori', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-LCNet_x1_0_textline_ori`.
 信息: 用提供的模式无法找到文件。
 D:\app\anaconda\envs\env-hex\Lib\site-packages\paddle\utils\cpp_extension\extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
   warnings.warn(warning_message)
-Creating model: ('PP-LCNet_x1_0_textline_ori', None)
-Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-LCNet_x1_0_textline_ori`.
 WARNING: Logging before InitGoogleLogging() is written to STDERR
-W0107 07:09:27.453351 178496 gpu_resources.cc:114] Please NOTE: device: 0, GPU Compute Capability: 8.6, Driver API Version: 12.6, Runtime API Version: 12.6
+I0107 07:17:44.979974 508380 onednn_context.cc:81] oneDNN v3.6.2
 Creating model: ('PP-OCRv5_mobile_det', None)
 Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-OCRv5_mobile_det`.
 Creating model: ('PP-OCRv5_mobile_rec', None)
 Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\tgy20\.paddlex\official_models\PP-OCRv5_mobile_rec`.
-W0107 07:09:28.770181 178496 gpu_resources.cc:243] WARNING: device: 0. The installed Paddle is compiled with CUDNN 9.9, but CUDNN version in your machine is 9.5, which may cause serious incompatible bug. Please recompile or reinstall Paddle with compatible CUDNN version.
 OCR 结果：'吵闹鬼'
 
 # 识别结果：OCR 结果：'吵闹鬼'
@@ -722,7 +721,7 @@ def _get_ocr() -> PaddleOCR:
 >MSF9:学习一个大技巧：DEBUG！①：进入这个页面可以通过F5进入，也可以点击vscode左侧栏第4个按钮（有个小虫子）进入。②：进入后在debug栏的右上绿色小三角处选择python file（要选择当前环境的）。
 ③：debug常用的按键为F5(执行/继续执行)，F10(跳过)，F11（单步执行）等，也可以配合debug进行时跳出来的悬浮ui按钮执行。
 ④：在代码对应行数数字前点击暗红色点就是添加断点，程序走到这里会停下。然后再配合单步F11或者跳过F10等深入细节。
-⑤：在debug页面的左侧可以查看实时的参数值，比如通过这个页面看到了predict（）函数返回的数据结构“真面目”如图![数据结构真面目](<images/dev_log/stpe1.4-3 predict()返回数据结构.png>)
+⑤：在debug页面的左侧可以查看实时的参数值，比如通过这个页面看到了predict（）函数返回的数据结构“真面目”如图![数据结构真面目](<images/dev_log/step1.4-3 predict()返回数据结构.png>)
 
 >MSF10:第一次实战过程：第一次跟着gpt5.2生成代码在ocr.py中写下：
 ```
@@ -800,12 +799,20 @@ def recognize_text(image_path: str) -> str:
 
 >MSF11:为了暂时不处理GPU的CUDNN 9.9 vs 9.5 驱动冲突警告，先在ocr.py中加了device='cpu'强制使用cpu这样牺牲速度但是可以换来MVP阶段的稳定。
 
+
 #### Git 提交[完成日期：2026.1.7]
 ```bash
-git commit -m "Implement OCR functionality with PaddleOCR"
-# Commit ID：
+git commit -m "completed step 1.4,花大量时间debug输出rec_texts信息，目前在mvp阶段使用cpu暂时关闭gpu"
+# Commit ID：dac53ca
 ```
+>MSF12:1月7号及1月8号凌晨没有进行开发，把简历认真写写放到招聘网站上，克服心理障碍取消简历隐藏。
 
+>MSF13:简历放上后有个初创公司（杭州工核智能科技有限公司）有兴趣并加微信，在1月9号凌晨6点钟微信沟通40分钟，未作开发。这家公司很巧是工业行业，又是初创，他们认为我的计算机能力不够，但是重视我的工业领域工作经验，沟通较为积极，认为可以先兼职合作项目等简历（能力）丰富后再确定，等下一步沟通。
+
+>MSF14:1月10日，通过小黑盒刷帖发现已经有玩家在做ai教练了（https://www.hexcoach.gg/） 它专注于排位5V5对局上分，和我是错位竞争。虽然会有一丝危机感，但同时也说明我这个项目有真实的需求(该博主1月8日第一次发帖至1月10号早8：32此刻，内测群已加入70人)。此外我也有差异化优势，比如支持语音交互等。珠玉在前，路子也好走一些。通过他的帖子我了解到LCU api（League Client Update API 客户端接口） 和 LCD api（Live Client Data API 客户端数据接口）这两个LOL官方结构可用于读取数据英雄名称、等级、各类属性、装备名称等，很多之前的技术困难（原打算用phash识别装备）都直接解决且更快更准确！同时我对于OCR的建设也不浪费，因为LCD数据中并没有海克斯的信息，还是智能通过OCR来识别。
+其中LCD可以拿到游戏中的实时数据，如图所示![json内容](<images/dev_log/step1.4-5 LCD api实时游戏数据json.png>) ![LCD api数据结构图](<images/dev_log/step1.4-6 LCD api数据结构.png>)
+
+>MSF15:发现英雄联盟Wiki是个宝藏，里面有所有的海克斯图标和详细描述，如图![wiki页面海克斯图标](<images/dev_log/step1.4-7 wiki页面海克斯图标.png>) ![Wiki页面海克斯详细描述](<images/dev_log/step1.4-8 wiki页面海克斯详细说明.png>)。
 ---
 
 ### [日期：____] - Step 1.5 - Phase 1 集成测试

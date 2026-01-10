@@ -37,11 +37,8 @@ env/
 Thumbs.db
 
 # Project Specific
-assets/test_images/*.png
-assets/test_images/*.jpg
 data/cache/
 *.log
-docs/images/dev_log
 !docs/images/dev_log.gitkeep
 output/
 roi/
