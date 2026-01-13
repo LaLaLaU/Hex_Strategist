@@ -4,6 +4,7 @@
 -recognize_text(image_path) -> str:返回图片中识别到的文本（拼接后的字符串）
 """
 
+
 from functools import lru_cache
 from paddleocr import PaddleOCR
 
@@ -18,7 +19,7 @@ def _get_ocr() -> PaddleOCR:
         text_recognition_model_name="PP-OCRv5_mobile_rec",
         use_doc_orientation_classify=False,
         use_doc_unwarping=False,
-        device = 'cpu',
+        device = 'gpu',
     )
 
 def recognize_text(image_path:str) -> str:
@@ -41,27 +42,3 @@ def recognize_text(image_path:str) -> str:
                if s:
                    texts.append(s)
    return "".join(texts).strip()
-
-
-# def recognize_text(image_path: str) -> str:
-#     """识别图片中的文本，返回拼接后的字符串。"""
-#     ocr = _get_ocr()
-#     result = ocr.predict(image_path)
-
-#     texts: list[str] = []
-
-#     # result 是一个对象列表
-#     for item in result:
-#         # 1. 尝试获取对象的 'res' 属性（它是一个字典）
-#         # 如果 item 本身就是字典，则直接使用 item
-#         res_dict = getattr(item, "res", item if isinstance(item, dict) else {})
-        
-#         # 2. 从字典中提取 'rec_texts'
-#         if isinstance(res_dict, dict):
-#             rec_texts = res_dict.get("rec_texts", [])
-#             for t in rec_texts:
-#                 s = str(t).strip()
-#                 if s:
-#                     texts.append(s)
-
-#     return " ".join(texts).strip()

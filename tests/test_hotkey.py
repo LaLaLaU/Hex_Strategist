@@ -8,7 +8,7 @@ from src.config import OUTPUT_DIR
 
 def test_hotkey_capture():
     """测试按下F9触发截图"""
-    from src.capture import start_capture_service
+    from src.capture import hotkey_capture_service
 
     print("="*100)
     print("热键测试启动")
@@ -20,7 +20,7 @@ def test_hotkey_capture():
     print("="*100)
     print("\n等待按键...")
 
-    start_capture_service()
+    hotkey_capture_service()
 
 if __name__ == "__main__":
     test_hotkey_capture()

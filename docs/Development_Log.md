@@ -467,7 +467,7 @@ for f in files:
 [f.upper() for f in files if f.startswith("capture_") and f.endswith(".png")]
 此外，注意拼写：应该是 startswith 和 endswith，不是 startwith / endwith。
 
->MSF3:assert语句有两种用法，①就是直接后面跟条件，②是assert 条件,错误信息   中间用英文逗号分割开。
+>MSF3:assert语句有两种用法，①就是直接后面跟条件，②是assert 条件,错误信息   中间用英文逗号分割开，可以理解为“如果条件不满足的话就报这个错误信息”。
 
 >MSF4:在找到最新文件时用到了max()语句，并且比较的是完整的文件路径，但是路径明显不能比较大小，于是用到了key,其中key就是路径文件里要比较的东西，本例是key=os.path.getmtime（注意key后面跟函数名就可以了不用加()），就是这个路径的最新更改时间，用这个key来判断哪个路径是max
 
@@ -606,7 +606,6 @@ ROI_CONFIG = {
     "hex_name_1": (643, 550, 975, 595),  # 第一个海克斯名称位置
     "hex_name_2": (1108, 548, 1457,598),  # 第二个海克斯名称位置
     "hex_name_3": (1574, 546, 1934, 594),  # 第三个海克斯名称位置
-    "hero_face":(754,1287,847,1375), # 英雄面部区域（后加）
 }
 ```
 
@@ -618,8 +617,7 @@ ROI_CONFIG = {
 截图尺寸：2560x1440
 hex_name_1-> 332x45保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_1.png
 hex_name_2-> 349x50保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_2.png  
-hex_name_3-> 360x48保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_3.png  
-hero_face-> 93x88保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hero_face.png     
+hex_name_3-> 360x48保存到E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_hex_name_3.png    
 
 ROI 预览图：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.png_roi_preview.png
 手动打开它，检查红框是否准确框住ROI区域。
@@ -630,7 +628,6 @@ ROI 预览图：E:\jiqixuexi\Hex_Strategist\output\roi\capture_20260103_225336.p
 # output\roi\capture_20260103_225336.png_roi_hex_name_1.png
 # output\roi\capture_20260103_225336.png_roi_hex_name_2.png  
 # output\roi\capture_20260103_225336.png_roi_hex_name_3.png  
-# output\roi\capture_20260103_225336.png_roi_hero_face.png
 # - output/roi_preview.png - 红框是否准确：✅准确
 
 # 状态：✅ 通过
@@ -812,19 +809,42 @@ git commit -m "completed step 1.4,花大量时间debug输出rec_texts信息，�
 >MSF14:1月10日，通过小黑盒刷帖发现已经有玩家在做ai教练了（https://www.hexcoach.gg/） 它专注于排位5V5对局上分，和我是错位竞争。虽然会有一丝危机感，但同时也说明我这个项目有真实的需求(该博主1月8日第一次发帖至1月10号早8：32此刻，内测群已加入70人)。此外我也有差异化优势，比如支持语音交互等。珠玉在前，路子也好走一些。通过他的帖子我了解到LCU api（League Client Update API 客户端接口） 和 LCD api（Live Client Data API 客户端数据接口）这两个LOL官方结构可用于读取数据英雄名称、等级、各类属性、装备名称等，很多之前的技术困难（原打算用phash识别装备）都直接解决且更快更准确！同时我对于OCR的建设也不浪费，因为LCD数据中并没有海克斯的信息，还是智能通过OCR来识别。
 其中LCD可以拿到游戏中的实时数据，如图所示![json内容](<images/dev_log/step1.4-5 LCD api实时游戏数据json.png>) ![LCD api数据结构图](<images/dev_log/step1.4-6 LCD api数据结构.png>)
 
->MSF15:发现英雄联盟Wiki是个宝藏，里面有所有的海克斯图标和详细描述，如图![wiki页面海克斯图标](<images/dev_log/step1.4-7 wiki页面海克斯图标.png>) ![Wiki页面海克斯详细描述](<images/dev_log/step1.4-8 wiki页面海克斯详细说明.png>)。
+>MSF15:发现英雄联盟Wiki是个宝藏，里面有所有的海克斯图标和详细描述，如图![wiki页面海克斯图标](<images/dev_log/step1.4-7 wiki页面海克斯图标.png>) ![Wiki页面海克斯详细描述](<images/dev_log/step1.4-8 wiki页面海克斯详细说明.png>)。此外，ai也给我推荐https://developer.riotgames.com/docs/lol#data-dragon 影响联盟开发者页面的data-dragon里面有详细的json游戏资料文件，后续开发过程具体选择哪种后面再说。
+
+>MSF16：游戏中左下角UI可以显示已经获取的海克斯小图标，可尝试通过phash匹配已经拿了哪些海克斯，用于中途使用或者前几次没有按照Hex_Strategist建议选择海克斯的情况中实时调整策略。
 ---
 
-### [日期：____] - Step 1.5 - Phase 1 集成测试
+### [日期：2026.1.11周日开始] - Step 1.5 - Phase 1 集成测试
+
+#### 学习经验
+>MSF1: roi = ROI_CONFIG.get()是指从ROI_CONFIG这个字典里用get方法取出名叫key的值赋给roi。
+
+>MSF2:学到一种“解包循环”的写法
+for key,path in roi_paths:
+    xxx
+意为把roi_path元组里的第一个字符串赋值给key,第二个给path，这么写本质上等于
+for item in roi_paths:
+    key = item[0]
+    path = item[1]
+需要注意的是这么写不仅对元组有用，对列表和字典同样适用。此外如果元组/列表/字典中有不只两个元素，那么for后面也要跟匹配数量的元素，比如roi_paths中要是有5个元素，key和path是第1和第3个元素则必须写成for key,_,path,_,_,_ in roi_paths: 即不拿出来的用段下划线占位。
+
+>MSF3:字典内容的读与写，注意都是用方括号（但字典在定义时用键值对，外面套花括号）：
+读：①标准的读法是value = dict["key"] ②不确定你要的value在不在字典里，就用value = dict.get("key",default_value)，这样读不到也能返回默认值。
+写：①标准用法dict["key"] = value (此处一定注意！在此debug浪费了很多时间因为我写了result["path"] = capture_fullscreen 实际上应该写result["path"] = capture_fullscreen() 才对！！)   ②防御性写/读：dict.setfault("key",default_value) 即如果key不存在就设为默认值。如果已经存在了，就返回原来的值，不覆盖。
+
+>MSF4: 之前的start_capture_service()名称被我改成了hotkey_capture_service()，它用在ROI测试里，但是这个监听服务，监听后只能截图不能返回截图地址用于后续集成测试，“属于非阻塞式副作用函数 (Side Effect Function)，无法提供同步返回值。”  因此在该步集成测试新建capture_once_by_hotkey()服务，可以实现返回截图地址， “实现了基于信号量 (Semaphore) 的同步获取机制。” 。它实现的方式是监听-阻塞-释放阻塞的原理：通过引入threading库的threading.Enent()机制实现单次截图-单次事件触发（即返回图片地址）![两种截图服务差别](<images/dev_log/step1.5-2 两种截图服务的本质.png>) 
+
+>MSF5:threading.Event()的常规用法是先实例化一个threading.Event事件，本例将实例化命名为done。然后实例进入wait()状态挂起等待，当有异步事件（本例是按下热键）系统先执行截图事件并将路径存入共享变量，随后 done.set() 释放信号灯。此时主流程（等done.set的信号通知到达）瞬间被唤醒，通过 finally 清理资源，并最终通过return语句将路径交付给调用方。
+这一套操作专业上叫做“基于事件驱动的异步转同步阻塞等待”，其中异步和同步的解释为：同步指事情一件一件干，而异步是指事情可以跳着干或同时干，被跳过的事等信号来了再用回调函数继续干。所谓的“异步转同步”是指按键时机不可预测，和主程序（截图以及返回地址）是异步关系。但是“ 主程序 -> 截图 -> 返回地址 -> 主程序 ” 这属于同步。然后现在加了一个wait()变成了“ 主程序 -> 事件.wait() -> 截图 -> 返回地址 -> 主程序 ”把按键行为强行变成了同步。![异步转同步原理图](<images/dev_log/step1.5-3 基于事件驱动的异步转同步阻塞等待.png>)
+
+>MSF6: [exit_handle] if exit_handle else []的用法专业上叫"三元表达式"。本质上是用[结果A] if [条件] else [结果B]代替传统if-else。这样写可以防止exit_handle为空（None）时导致的赋值错误，注意空None不等于[],[]是有值的，只不过这个值就是空着的。
+
+>MSF7:handle是句柄，是某一个按键被注册为热键（事件触发，挂在操作系统的钩子上）后的凭证，将来释放这个热键需要通过这个凭证。为什么使用handle而不是具体的按键比如esc，是因为在不同的模块里esc可能被注册为不同的功能，但是handle是唯一的，因此通过handle注销是精准的。且热键注册不等于热键执行，即handle = keyboard.add_hotkey(hk,_do_capture)只是注册，具体_do_capture动作只有在hk被按下的时候才会执行。
 
 #### 测试结果
-```bash
-python tests/test_phase1_integration.py
+![成功集成测试结果](<images/dev_log/step1.5-1 集成测试结果.png>)
 
-# 输出：
-
-
-# 状态：
+ 状态：✅通过测试
 ```
 
 #### Git 提交
@@ -838,21 +858,15 @@ git commit -m "Add Phase 1 integration test"
 ## Phase 1 完成总结
 
 ### 完成日期
-- 开始：____
-- 结束：____
-- 总耗时：____ 小时
+- 开始：2026.1.2
+- 结束：2026.1.13
 
 ### 完成情况
-- [ ] Step 1.1 ✅
-- [ ] Step 1.2 ✅
-- [ ] Step 1.3 ✅
-- [ ] Step 1.4 ✅
-- [ ] Step 1.5 ✅
-
-### Phase 1 关键指标
-- 截图延迟：____ ms
-- ROI 裁剪准确率：____
-- OCR 识别准确率：____（测试样本数：____）
+- [×] Step 1.1 ✅
+- [×] Step 1.2 ✅
+- [×] Step 1.3 ✅
+- [×] Step 1.4 ✅
+- [×] Step 1.5 ✅
 
 ### 遇到的主要问题
 

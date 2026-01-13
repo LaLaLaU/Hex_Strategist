@@ -57,9 +57,6 @@ def  test_roi_crop():
     # 2）当前要验证的ROI（名称框）
     keys = ["hex_name_1","hex_name_2","hex_name_3"]
 
-    # hero_face 如果配置了也可以一起裁剪
-    if ROI_CONFIG.get("hero_face") is not None:
-        keys.append("hero_face")
 
     # 3)裁剪并保存到 roi/
     for key in keys:
